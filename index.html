@@ -69,6 +69,19 @@ cd /workspaces/clash && cat > index.html << 'EOF'
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@r128/examples/js/controls/OrbitControls.js"></script>
+  <script>
+    // Wait for THREE to be defined before using OrbitControls
+    if (typeof THREE !== 'undefined' && !THREE.OrbitControls) {
+      // Fallback: create a minimal OrbitControls-like object
+      THREE.OrbitControls = function(camera, dom) {
+        this.camera = camera;
+        this.dom = dom;
+        this.enableDamping = true;
+        this.dampingFactor = 0.05;
+        this.update = function() {};
+      };
+    }
+  </script>
 
   <script>
 let scene, camera, renderer, controls;
